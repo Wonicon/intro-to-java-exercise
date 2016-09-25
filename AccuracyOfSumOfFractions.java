@@ -1,3 +1,4 @@
+// assignment 1 4.23
 public class AccuracyOfSumOfFractions {
   private static double sumFromLeft(int n) {
     double sum = 0;
