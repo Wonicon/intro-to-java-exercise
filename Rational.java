@@ -82,8 +82,8 @@ public class Rational extends Number implements Comparable {
   /** Override the toString() method */
   @Override
   public String toString() {
-    if (denominator == 1)
-      return Long.toString(denominator);
+    if (denominator == 1 || numerator == 0)
+      return Long.toString(numerator);
     else
       return numerator + "/" + denominator;
   }
