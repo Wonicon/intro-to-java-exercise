@@ -2,18 +2,20 @@
 
 import java.util.*;
 
-public class ConcurrentMod {
+public class ConcurrentModSync {
   private static Set<String> set;
 
   public static void main(String[] args) throws Exception {
-    set = new HashSet<>();
+    set = Collections.synchronizedSet(new HashSet<>());
     set.add("a");
     set.add("b");
 
     Thread writer = new Thread(() -> {
       int i = 0;
       while (true) {
-        set.add("hello" + i);
+        synchronized (set) {
+          set.add("hello" + i);
+        }
         i++;
         try {
           Thread.sleep(1000);
@@ -23,15 +25,19 @@ public class ConcurrentMod {
 
     Thread printer = new Thread(() -> {
       while (true) {
-        for (String s: set) {
-          System.out.println(s);
-          try {
-            Thread.sleep(1000);
-          } catch (Exception e) {}
+        synchronized (set) {
+          for (String s : set) {
+            System.out.println(s);
+            try {
+              Thread.sleep(1000);
+            } catch (Exception e) {
+            }
+          }
         }
         try {
           Thread.sleep(1000);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
       }
     });
 
